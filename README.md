@@ -36,7 +36,7 @@ The system evaluates vendors across 7 weighted domains:
 ### Prerequisites
 
 - Python 3.8+
-- [Ollama](https://ollama.ai/) installed and running locally
+- Access to Ollama instance (local or remote)
 - Required Python packages (see Requirements section)
 
 ### Setup
@@ -52,16 +52,27 @@ cd ai-sandbox-v2
 pip install -r requirements.txt
 ```
 
-3. Ensure Ollama is running:
+3. Configure Ollama connection:
 ```bash
-ollama serve
+# Create your private .env file (not committed to git)
+cp .env.example .env
+
+# Edit .env with your Ollama instance URL
+# For local Ollama: http://localhost:11434/api/generate
+# For remote Ollama: http://your-private-host:11434/api/generate
+nano .env
 ```
 
-4. Pull required models:
+4. For local Ollama, install and run:
 ```bash
-ollama pull llama3:latest
-ollama pull mistral:latest
+# Install Ollama from https://ollama.ai
+ollama serve
+
+# Pull the default model
+ollama pull qwen2.5-coder:3b
 ```
+
+**🔒 Security Note:** Never commit your `.env` file. It contains your private Ollama endpoint and should remain local only.
 
 ## Usage
 
@@ -132,24 +143,44 @@ The system supports multiple output formats:
 ### Available Models
 
 Default models configured:
-- `llama3:latest` (default)
+- `qwen2.5-coder:3b` (default, lightweight & fast)
+- `llama3:latest`
 - `mistral:latest`
 - `qwen3-coder:30b` (heavy)
 
 Edit model selection in `config.py` or use environment variables:
 ```bash
-export OLLAMA_MODEL=llama3:latest
+export OLLAMA_MODEL=qwen2.5-coder:3b
 ```
 
 ### Ollama Configuration
 
-Default endpoint: `http://localhost:11434/api/generate`
+**Default:** System defaults to `localhost:11434` for security.
 
-Configure via environment variables (see `.env.example`):
+To configure your Ollama instance:
+
+1. Create private `.env` file:
 ```bash
-OLLAMA_URL=http://localhost:11434/api/generate
-OLLAMA_MODEL=llama3:latest
+cp .env.example .env
 ```
+
+2. Edit configuration in `.env`:
+```bash
+# For local Ollama
+OLLAMA_URL=http://localhost:11434/api/generate
+OLLAMA_MODEL=qwen2.5-coder:3b
+
+# For remote Ollama (private instance)
+# OLLAMA_URL=http://your-private-host:11434/api/generate
+```
+
+3. Your `.env` file is automatically ignored by git and stays private.
+
+**🔒 Security Best Practices:**
+- Never commit `.env` files to git
+- Use authentication for remote Ollama instances
+- Restrict network access with firewalls/VPN
+- Use SSH tunnels for remote connections
 
 ## Risk Scoring Methodology
 

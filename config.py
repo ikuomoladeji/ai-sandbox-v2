@@ -12,12 +12,14 @@ class Config:
     """Centralized configuration for TPRM system"""
 
     # Ollama Configuration
+    # Default to localhost for security - override with .env for remote instances
     OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
-    OLLAMA_MODEL_DEFAULT = os.getenv("OLLAMA_MODEL", "llama3:latest")
+    OLLAMA_MODEL_DEFAULT = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:3b")
     OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "120"))
 
     # Available Models
     AVAILABLE_MODELS = [
+        "qwen2.5-coder:3b",
         "llama3:latest",
         "mistral:latest",
         "qwen3-coder:30b",
