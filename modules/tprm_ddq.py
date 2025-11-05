@@ -1,13 +1,11 @@
 
 
 import datetime
-import requests
 from pathlib import Path
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, Border, Side
 from . import utils
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
+from modules.api_client import ask_model
 
 # === WEIGHT MODEL (TOTAL = 100%)
 TPRM_DOMAINS = [

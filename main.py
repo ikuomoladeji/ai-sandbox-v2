@@ -95,10 +95,13 @@ def show_menu():
     print("  8. Import Vendors from Excel")
     print("     → Bulk vendor loading")
     print()
-    print("  9. Continuous Monitoring (Coming Soon)")
+    print("  9. Interactive Dashboard")
+    print("     → Real-time risk analytics and visualizations")
+    print()
+    print("  10. Continuous Monitoring (Coming Soon)")
     print("     → Automated watchlist tracking")
     print()
-    print("  10. Exit")
+    print("  11. Exit")
     print("\n" + "="*60)
 
 
@@ -155,7 +158,7 @@ def main():
             show_menu()
 
             try:
-                choice = input("\n👉 Select option (1-10): ").strip()
+                choice = input("\n👉 Select option (1-11): ").strip()
             except EOFError:
                 print("\n\nEOF received. Exiting cleanly.")
                 logger.info("Application exit (EOF)")
@@ -169,10 +172,10 @@ def main():
             try:
                 choice = InputValidator.validate_menu_choice(
                     choice,
-                    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+                    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
                 )
             except ValidationError:
-                print("❌ Invalid selection. Please choose 1-10.")
+                print("❌ Invalid selection. Please choose 1-11.")
                 continue
 
             # Log user action
@@ -252,10 +255,19 @@ def main():
                     print("Check logs/tprm_system.log for details")
 
             elif choice == "9":
+                try:
+                    mod = importlib.import_module("modules.dashboard_launcher")
+                    mod.run()
+                except Exception as e:
+                    logger.error(f"Error launching dashboard: {e}", exc_info=True)
+                    print(f"\n❌ Error launching dashboard: {e}")
+                    print("Check logs/tprm_system.log for details")
+
+            elif choice == "10":
                 print("\n⚙️  Continuous monitoring / watchlist module coming soon.")
                 logger.info("User accessed unimplemented feature: continuous monitoring")
 
-            elif choice == "10":
+            elif choice == "11":
                 print("\n👋 Thank you for using the TPRM System. Goodbye!")
                 logger.info("Application exit (user request)")
                 break

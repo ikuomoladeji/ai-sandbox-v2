@@ -12,17 +12,18 @@ class Config:
     """Centralized configuration for TPRM system"""
 
     # Ollama Configuration
-    # Default to localhost for security - override with .env for remote instances
-    OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
-    OLLAMA_MODEL_DEFAULT = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:3b")
+    # VPS-only configuration - must be set in .env file
+    OLLAMA_URL = os.getenv("OLLAMA_URL")
+    OLLAMA_MODEL_DEFAULT = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
     OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "120"))
 
-    # Available Models
+    # Available Models on VPS
     AVAILABLE_MODELS = [
-        "qwen2.5-coder:3b",
+        "llama3.2:3b",
+        "llama3.2:1b",
+        "llama3.2:latest",
         "llama3:latest",
         "mistral:latest",
-        "qwen3-coder:30b",
     ]
 
     # Directory Paths

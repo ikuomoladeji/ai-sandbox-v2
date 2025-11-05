@@ -1,17 +1,7 @@
 import json
 from pathlib import Path
-import requests
 from . import utils
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-
-def ask_model(model_name, prompt):
-    resp = requests.post(
-        OLLAMA_URL,
-        json={"model": model_name, "prompt": prompt, "stream": False}
-    )
-    resp.raise_for_status()
-    return resp.json().get("response", "").strip()
+from modules.api_client import ask_model
 
 def build_org_view(db, org_id):
     """

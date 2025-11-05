@@ -1,17 +1,7 @@
 import datetime
-import requests
 from pathlib import Path
 from . import utils
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-
-def ask_model(model_name, prompt):
-    resp = requests.post(
-        OLLAMA_URL,
-        json={"model": model_name, "prompt": prompt, "stream": False}
-    )
-    resp.raise_for_status()
-    return resp.json().get("response", "").strip()
+from modules.api_client import ask_model
 
 def run(model_name):
     print("\n=== Risk Acceptance / Exception Memo Generator ===\n")

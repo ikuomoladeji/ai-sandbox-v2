@@ -18,6 +18,7 @@ A complete vendor risk management command center with:
 - **Risk Treatment Summaries**: Create board-level risk treatment reports
 - **Bulk Import**: Import vendors from Excel spreadsheets
 - **Search & Filter**: Query vendors and open actions
+- **Interactive Dashboard**: Real-time risk analytics with Streamlit visualizations
 
 #### Control Domains
 
@@ -36,7 +37,7 @@ The system evaluates vendors across 7 weighted domains:
 ### Prerequisites
 
 - Python 3.8+
-- Access to Ollama instance (local or remote)
+- Access to VPS running Ollama
 - Required Python packages (see Requirements section)
 
 ### Setup
@@ -52,27 +53,26 @@ cd ai-sandbox-v2
 pip install -r requirements.txt
 ```
 
-3. Configure Ollama connection:
+3. Configure VPS Ollama connection:
 ```bash
 # Create your private .env file (not committed to git)
 cp .env.example .env
 
-# Edit .env with your Ollama instance URL
-# For local Ollama: http://localhost:11434/api/generate
-# For remote Ollama: http://your-private-host:11434/api/generate
+# Edit .env with your VPS Ollama endpoint
 nano .env
 ```
 
-4. For local Ollama, install and run:
+4. Update the OLLAMA_URL in `.env`:
 ```bash
-# Install Ollama from https://ollama.ai
-ollama serve
-
-# Pull the default model
-ollama pull qwen2.5-coder:3b
+# Replace YOUR_VPS_IP with your actual VPS address
+OLLAMA_URL=http://YOUR_VPS_IP:11434/api/generate
+OLLAMA_MODEL=llama3.2:3b
 ```
 
-**🔒 Security Note:** Never commit your `.env` file. It contains your private Ollama endpoint and should remain local only.
+**🔒 Security Note:**
+- Never commit your `.env` file - it contains your private VPS endpoint
+- Ensure your VPS has proper firewall rules and authentication
+- Use VPN or SSH tunneling for additional security
 
 ## Usage
 
@@ -91,33 +91,58 @@ Follow the interactive menu to:
 6. **Stakeholder Communications** - Draft vendor and stakeholder communications
 7. **Risk Treatment Summaries** - Create board-level risk treatment reports
 8. **Bulk Import** - Import vendors from Excel templates
-9. **Continuous Monitoring** - (Coming soon) Automated watchlist tracking
+9. **Interactive Dashboard** - Launch real-time analytics dashboard
+10. **Continuous Monitoring** - (Coming soon) Automated watchlist tracking
+
+### Running the Interactive Dashboard
+
+Launch the Streamlit dashboard directly:
+
+```bash
+streamlit run dashboard.py
+```
+
+Or access it from the main menu (Option 9).
+
+**Dashboard Features:**
+- 📊 Real-time vendor risk distribution
+- 🔥 Risk heat maps (Likelihood vs Impact)
+- 📈 Control domain performance analysis
+- 📅 Assessment timeline visualization
+- 🏢 Organization-level comparisons
+- 📋 Interactive vendor portfolio table with filters
+- 📥 CSV export functionality
+- 🔄 Auto-refresh capability
+
+The dashboard automatically loads data from `data/vendors.json` and provides interactive visualizations powered by Plotly and Streamlit.
 
 ## Project Structure
 
 ```
 ai-sandbox-v2/
-├── main.py                 # Main entry point for TPRM system
-├── config.py              # Centralized configuration
-├── requirements.txt       # Python dependencies
-├── .env.example          # Environment variable template
-├── .gitignore            # Git ignore patterns
-├── modules/              # Risk management modules
+├── main.py                    # Main entry point for TPRM system
+├── dashboard.py               # Streamlit dashboard application
+├── config.py                  # Centralized configuration
+├── requirements.txt           # Python dependencies
+├── .env.example              # Environment variable template
+├── .gitignore                # Git ignore patterns
+├── modules/                  # Risk management modules
 │   ├── __init__.py
-│   ├── tprm_ddq.py       # Vendor assessment & DDQ scoring
-│   ├── reports.py        # Portfolio & management reporting
-│   ├── search.py         # Vendor search & filtering
-│   ├── register.py       # Risk register export
-│   ├── acceptances.py    # Risk acceptance memo generation
-│   ├── comms.py          # Communication drafting
-│   ├── risk_treatment.py # Risk treatment summaries
-│   ├── importer.py       # Bulk vendor import
-│   ├── assessments.py    # Assessment utilities
-│   └── utils.py          # Common utilities
-├── data/                 # Vendor database (JSON)
+│   ├── tprm_ddq.py           # Vendor assessment & DDQ scoring
+│   ├── reports.py            # Portfolio & management reporting
+│   ├── search.py             # Vendor search & filtering
+│   ├── register.py           # Risk register export
+│   ├── acceptances.py        # Risk acceptance memo generation
+│   ├── comms.py              # Communication drafting
+│   ├── risk_treatment.py     # Risk treatment summaries
+│   ├── importer.py           # Bulk vendor import
+│   ├── dashboard_launcher.py # Dashboard launcher module
+│   ├── assessments.py        # Assessment utilities
+│   └── utils.py              # Common utilities
+├── data/                     # Vendor database (JSON)
 │   └── vendors.json
-├── history/              # Historical snapshots
-└── outputs/              # Generated reports and exports
+├── history/                  # Historical snapshots
+└── outputs/                  # Generated reports and exports
 ```
 
 ## Data Storage
@@ -140,24 +165,25 @@ The system supports multiple output formats:
 
 ## Configuration
 
-### Available Models
+### Available Models on VPS
 
-Default models configured:
-- `qwen2.5-coder:3b` (default, lightweight & fast)
+Available models:
+- `llama3.2:3b` (default, lightweight & fast)
+- `llama3.2:1b` (ultra-lightweight)
+- `llama3.2:latest`
 - `llama3:latest`
 - `mistral:latest`
-- `qwen3-coder:30b` (heavy)
 
-Edit model selection in `config.py` or use environment variables:
+Select model in `.env` or use environment variables:
 ```bash
-export OLLAMA_MODEL=qwen2.5-coder:3b
+export OLLAMA_MODEL=llama3.2:3b
 ```
 
-### Ollama Configuration
+### VPS Ollama Configuration
 
-**Default:** System defaults to `localhost:11434` for security.
+**Required:** System requires VPS Ollama endpoint configured in `.env`
 
-To configure your Ollama instance:
+To configure your VPS Ollama instance:
 
 1. Create private `.env` file:
 ```bash
@@ -166,21 +192,20 @@ cp .env.example .env
 
 2. Edit configuration in `.env`:
 ```bash
-# For local Ollama
-OLLAMA_URL=http://localhost:11434/api/generate
-OLLAMA_MODEL=qwen2.5-coder:3b
-
-# For remote Ollama (private instance)
-# OLLAMA_URL=http://your-private-host:11434/api/generate
+# Configure your VPS Ollama endpoint
+OLLAMA_URL=http://YOUR_VPS_IP:11434/api/generate
+OLLAMA_MODEL=llama3.2:3b
+OLLAMA_TIMEOUT=120
 ```
 
 3. Your `.env` file is automatically ignored by git and stays private.
 
 **🔒 Security Best Practices:**
 - Never commit `.env` files to git
-- Use authentication for remote Ollama instances
-- Restrict network access with firewalls/VPN
-- Use SSH tunnels for remote connections
+- Ensure VPS has proper firewall rules (restrict port 11434 to your IP)
+- Use strong authentication on VPS
+- Consider using VPN or SSH tunneling for additional security
+- Regularly update VPS security patches
 
 ## Risk Scoring Methodology
 
@@ -250,6 +275,25 @@ This project is available for educational and commercial use.
 
 - Built with [Ollama](https://ollama.ai/) for local LLM inference
 - Uses OpenPyXL, ReportLab, python-pptx, and python-docx for document generation
+
+
+## MaryMia Ltd Engagement
+
+This repository includes completed Third-Party Risk Management work for **MaryMia Ltd**,
+delivered in July 2024. The engagement deliverables are organized in `outputs/marymia_ltd/`
+and include:
+
+- Vendor inventory and weighted DDQ assessments
+- Risk treatment and mitigation plans
+- Contract security clause reviews
+- Continuous monitoring registers
+- Incident response documentation
+- Audit readiness evidence (ISO 27001 mapping)
+
+**View Details**: See `outputs/marymia_ltd/README.md` for complete documentation.
+
+**Engagement Outcome**: MaryMia Ltd achieved a **Substantially Compliant** vendor risk
+posture with measurable reduction in residual risk.
 
 ## Support
 
