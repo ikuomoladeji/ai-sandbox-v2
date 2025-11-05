@@ -1,0 +1,20 @@
+{
+  "vendor_name": "AWS",
+  "org_id": "Marymia ltd",
+  "created": "2025-10-28T17:17:01.304498",
+  "service": "cloud",
+  "business_owner": "IT/Security",
+  "assessment_date": "2025-10-28",
+  "control_scores": {
+    "Governance": 5,
+    "Cybersecurity": 5,
+    "Data Protection": 5,
+    "Resilience": 4,
+    "Compliance": 3
+  },
+  "overall_control_score": 4.4,
+  "likelihood": "2",
+  "impact": "4",
+  "risk_bucket": "medium",
+  "ai_analysis": "**Brief Risk Summary**\n\nBased on the control scores, Marymia Ltd's AWS vendor poses a medium-risk situation. The overall score of 4.4 out of 5 indicates that AWS has demonstrated strong controls across most categories, with Governance, Cybersecurity, and Data Protection receiving perfect scores. However, concerns arise from the Resilience score of 4 and Compliance score of 3, suggesting some room for improvement in these areas.\n\nWhile it is reassuring to see high scores in critical areas like Governance and Cybersecurity, the lower scores in Resilience and Compliance imply that AWS may not be as robust in its disaster recovery planning or compliance with relevant regulations. This could have implications for Marymia Ltd's business continuity and potential legal consequences if non-compliance is identified.\n\n**Key Strengths**\n\n1. Strong Governance: AWS has demonstrated a high level of governance, indicating effective management of its cloud services.\n2. Robust Cybersecurity: The perfect score in Cybersecurity suggests that AWS has implemented robust measures to protect customer data.\n3. Effective Data Protection: AWS's ability to ensure the confidentiality, integrity, and availability of customer data is also noteworthy.\n\n**Areas of Concern**\n\n1. Resilience: While AWS has a good level of resilience, there may be room for improvement in its disaster recovery planning and business continuity processes.\n2. Compliance: The relatively low score in Compliance suggests that AWS may not fully comply with relevant regulations or industry standards.\n\n**Recommended Improvements**\n\n1. **Enhance Disaster Recovery Planning**: AWS should develop a more comprehensive disaster recovery plan to ensure minimal downtime and data loss in the event of an outage or disaster.\n2. **Strengthen Compliance Framework**: To mitigate risks, AWS should review and strengthen its compliance framework to ensure full adherence to relevant regulations and industry standards.\n3. **Conduct Regular Risk Assessments**: AWS should conduct regular risk assessments to identify potential vulnerabilities and implement controls to address them before they become material risks.\n\nBy implementing these improvements, Marymia Ltd can further reduce the overall risk associated with using AWS's cloud services."
+}

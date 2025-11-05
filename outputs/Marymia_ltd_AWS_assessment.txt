@@ -1,0 +1,24 @@
+**Brief Risk Summary**
+
+Based on the control scores, Marymia Ltd's AWS vendor poses a medium-risk situation. The overall score of 4.4 out of 5 indicates that AWS has demonstrated strong controls across most categories, with Governance, Cybersecurity, and Data Protection receiving perfect scores. However, concerns arise from the Resilience score of 4 and Compliance score of 3, suggesting some room for improvement in these areas.
+
+While it is reassuring to see high scores in critical areas like Governance and Cybersecurity, the lower scores in Resilience and Compliance imply that AWS may not be as robust in its disaster recovery planning or compliance with relevant regulations. This could have implications for Marymia Ltd's business continuity and potential legal consequences if non-compliance is identified.
+
+**Key Strengths**
+
+1. Strong Governance: AWS has demonstrated a high level of governance, indicating effective management of its cloud services.
+2. Robust Cybersecurity: The perfect score in Cybersecurity suggests that AWS has implemented robust measures to protect customer data.
+3. Effective Data Protection: AWS's ability to ensure the confidentiality, integrity, and availability of customer data is also noteworthy.
+
+**Areas of Concern**
+
+1. Resilience: While AWS has a good level of resilience, there may be room for improvement in its disaster recovery planning and business continuity processes.
+2. Compliance: The relatively low score in Compliance suggests that AWS may not fully comply with relevant regulations or industry standards.
+
+**Recommended Improvements**
+
+1. **Enhance Disaster Recovery Planning**: AWS should develop a more comprehensive disaster recovery plan to ensure minimal downtime and data loss in the event of an outage or disaster.
+2. **Strengthen Compliance Framework**: To mitigate risks, AWS should review and strengthen its compliance framework to ensure full adherence to relevant regulations and industry standards.
+3. **Conduct Regular Risk Assessments**: AWS should conduct regular risk assessments to identify potential vulnerabilities and implement controls to address them before they become material risks.
+
+By implementing these improvements, Marymia Ltd can further reduce the overall risk associated with using AWS's cloud services.

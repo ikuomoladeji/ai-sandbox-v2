@@ -1,0 +1,29 @@
+**Third-Party Risk Assessment Summary**
+
+**Executive Summary:**
+This third-party risk assessment evaluates the risks associated with Marymia Ltd's use of Amazon Web Services (AWS). The assessment focuses on AWS as a cloud service provider and examines the controls in place to manage data protection, compliance, access control, incident response, business continuity, subprocessor management, and governance & documentation. Based on our evaluation, we conclude that the overall risk level is Low, with a weighted score of 4.59 out of 5.
+
+**Key Strengths:**
+1. AWS demonstrates strong controls in data protection (4.67), incident response (4.67), and business continuity (5.0) domains.
+2. The company has implemented robust governance & documentation practices, achieving a high score of 5.0.
+
+**Gaps / Areas of Concern:**
+Although the overall risk level is Low, some areas require attention:
+1. Compliance: While AWS has strong compliance controls in place, we recommend that Marymia Ltd ensures proper configuration and monitoring to minimize risks.
+2. Access Control: Although a solid control domain, we suggest implementing additional measures to ensure seamless integration with Marymia Ltd's internal access control systems.
+
+**Required Remediation / Evidence Requests (with urgency):**
+To mitigate these gaps:
+1. Provide documentation of AWS's compliance controls in place, including monitoring and reporting procedures.
+2. Implement additional access control measures within the next 6 weeks.
+
+**Business Continuity / Resilience posture:**
+AWS's strong business continuity planning and execution capabilities reduce the risk of disruptions to Marymia Ltd's operations.
+
+**Compliance & Assurance posture:**
+AWS is committed to maintaining compliance with relevant regulations, including ISO 27001. Marymia Ltd should ensure that their own internal controls are properly configured to align with AWS's compliance framework.
+
+**Final Recommendation / Risk Level:**
+Based on this assessment, we recommend that Marymia Ltd continues to leverage AWS as a cloud service provider, considering the Low overall risk level and specific strengths in key domains. We urge prompt attention to the identified gaps to further mitigate risks.
+
+**Overall Risk Level:** Low

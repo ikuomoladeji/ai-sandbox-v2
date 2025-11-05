@@ -1,0 +1,157 @@
+{
+  "vendor_name": "AWS",
+  "org_id": "Marymia ltd",
+  "created": "2025-10-28T17:17:01.304498",
+  "service": "cloud",
+  "business_owner": "IT/Security",
+  "assessment_date": "2025-10-28",
+  "control_scores": {
+    "Governance": 5,
+    "Cybersecurity": 5,
+    "Data Protection": 5,
+    "Resilience": 4,
+    "Compliance": 3
+  },
+  "overall_control_score": 4.4,
+  "likelihood": "low",
+  "impact": "low",
+  "risk_bucket": "medium",
+  "ai_analysis": "**Brief Risk Summary**\n\nBased on the control scores, Marymia Ltd's AWS vendor poses a medium-risk situation. The overall score of 4.4 out of 5 indicates that AWS has demonstrated strong controls across most categories, with Governance, Cybersecurity, and Data Protection receiving perfect scores. However, concerns arise from the Resilience score of 4 and Compliance score of 3, suggesting some room for improvement in these areas.\n\nWhile it is reassuring to see high scores in critical areas like Governance and Cybersecurity, the lower scores in Resilience and Compliance imply that AWS may not be as robust in its disaster recovery planning or compliance with relevant regulations. This could have implications for Marymia Ltd's business continuity and potential legal consequences if non-compliance is identified.\n\n**Key Strengths**\n\n1. Strong Governance: AWS has demonstrated a high level of governance, indicating effective management of its cloud services.\n2. Robust Cybersecurity: The perfect score in Cybersecurity suggests that AWS has implemented robust measures to protect customer data.\n3. Effective Data Protection: AWS's ability to ensure the confidentiality, integrity, and availability of customer data is also noteworthy.\n\n**Areas of Concern**\n\n1. Resilience: While AWS has a good level of resilience, there may be room for improvement in its disaster recovery planning and business continuity processes.\n2. Compliance: The relatively low score in Compliance suggests that AWS may not fully comply with relevant regulations or industry standards.\n\n**Recommended Improvements**\n\n1. **Enhance Disaster Recovery Planning**: AWS should develop a more comprehensive disaster recovery plan to ensure minimal downtime and data loss in the event of an outage or disaster.\n2. **Strengthen Compliance Framework**: To mitigate risks, AWS should review and strengthen its compliance framework to ensure full adherence to relevant regulations and industry standards.\n3. **Conduct Regular Risk Assessments**: AWS should conduct regular risk assessments to identify potential vulnerabilities and implement controls to address them before they become material risks.\n\nBy implementing these improvements, Marymia Ltd can further reduce the overall risk associated with using AWS's cloud services.",
+  "regulator": "ISO 27001",
+  "assessed_at": "2025-10-28T18:22:34.835137",
+  "assessed_by": "ikuomola adedeji",
+  "domains": [
+    {
+      "name": "Data Protection",
+      "weight_pct": 25,
+      "score": 4.67,
+      "questions": [
+        {
+          "question": "Is customer data encrypted at rest and in transit?",
+          "score": 5,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Are there defined data retention and disposal procedures?",
+          "score": 4,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Is there evidence of SOC2/ISO27001 certifications related to data protection?",
+          "score": 5,
+          "sub_weight": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Compliance",
+      "weight_pct": 15,
+      "score": 4.5,
+      "questions": [
+        {
+          "question": "Do you maintain compliance with GDPR, HIPAA, PCI-DSS or similar?",
+          "score": 5,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Are certifications / audits current and valid (not expired)?",
+          "score": 4,
+          "sub_weight": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Access Control",
+      "weight_pct": 15,
+      "score": 4.0,
+      "questions": [
+        {
+          "question": "Is MFA enforced for privileged and remote access?",
+          "score": 3,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Are access reviews / offboarding revocations performed regularly?",
+          "score": 5,
+          "sub_weight": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Incident Response",
+      "weight_pct": 15,
+      "score": 4.67,
+      "questions": [
+        {
+          "question": "Is there a documented incident response plan?",
+          "score": 4,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Has the IR plan been tested in the last 12 months?",
+          "score": 5,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Is there a defined escalation / RACI for incidents?",
+          "score": 5,
+          "sub_weight": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Business Continuity",
+      "weight_pct": 10,
+      "score": 5.0,
+      "questions": [
+        {
+          "question": "Do you have BCP/DR plans that are tested annually?",
+          "score": 5,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Are RTO/RPO objectives defined and achievable for this service?",
+          "score": 5,
+          "sub_weight": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Subprocessor Management",
+      "weight_pct": 10,
+      "score": 4.5,
+      "questions": [
+        {
+          "question": "Do you assess and monitor critical subprocessors / 4th parties?",
+          "score": 4,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Do you maintain exit / contingency plans for critical suppliers?",
+          "score": 5,
+          "sub_weight": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Governance & Documentation",
+      "weight_pct": 10,
+      "score": 5.0,
+      "questions": [
+        {
+          "question": "Are key policies owned, reviewed, and approved annually?",
+          "score": 5,
+          "sub_weight": 1.0
+        },
+        {
+          "question": "Are risk/security roles and responsibilities clearly documented?",
+          "score": 5,
+          "sub_weight": 1.0
+        }
+      ]
+    }
+  ],
+  "weighted_score": 4.59,
+  "risk_level": "Low",
+  "composite_pct_score": 91.86
+}
