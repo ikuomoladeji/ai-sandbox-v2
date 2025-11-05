@@ -1,5 +1,11 @@
-import json, csv, datetime
+"""
+Production-grade utility functions with error handling and logging
+"""
+import json
+import csv
+import datetime
 from pathlib import Path
+from typing import Dict, List, Optional, Any
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from pptx import Presentation
@@ -7,8 +13,15 @@ from pptx.util import Pt
 from openpyxl import Workbook
 from docx import Document
 
-VENDOR_DB_PATH = Path("data/vendors.json")
-HISTORY_DIR = Path("history")
+from config import Config
+from modules.logger import get_logger, TPRMLogger
+from modules.validators import InputValidator, ValidationError
+
+logger = get_logger(__name__)
+
+# Use config for paths
+VENDOR_DB_PATH = Config.VENDOR_DB_PATH
+HISTORY_DIR = Config.HISTORY_DIR
 HISTORY_DIR.mkdir(exist_ok=True)
 
 # ---------------- Timestamp helper ----------------
@@ -39,16 +52,85 @@ def classify_risk_bucket(likelihood, impact):
 
 # ---------------- Vendor DB helpers (multi-org aware) ----------------
 
-def load_vendor_db():
+def load_vendor_db() -> Dict[str, Any]:
+    """
+    Load vendor database with error handling and backup
+
+    Returns:
+        Vendor database dictionary
+
+    Raises:
+        RuntimeError: If database is corrupted and cannot be loaded
+    """
     if not VENDOR_DB_PATH.exists():
-        return {}
-    try:
-        return json.loads(VENDOR_DB_PATH.read_text(encoding="utf-8"))
-    except Exception:
+        logger.info("Vendor database not found, creating new one")
         return {}
 
-def save_vendor_db(db):
-    VENDOR_DB_PATH.write_text(json.dumps(db, indent=2), encoding="utf-8")
+    try:
+        content = VENDOR_DB_PATH.read_text(encoding="utf-8")
+        db = json.loads(content)
+        logger.info(f"Loaded vendor database with {len(db)} organizations")
+        return db
+
+    except json.JSONDecodeError as e:
+        logger.error(f"Vendor database corrupted: {e}")
+
+        # Try to load backup
+        backup_path = VENDOR_DB_PATH.with_suffix('.json.backup')
+        if backup_path.exists():
+            try:
+                logger.info("Attempting to load backup database")
+                content = backup_path.read_text(encoding="utf-8")
+                db = json.loads(content)
+                logger.info("Successfully loaded backup database")
+                return db
+            except Exception as backup_error:
+                logger.error(f"Backup database also corrupted: {backup_error}")
+
+        raise RuntimeError(
+            "Vendor database is corrupted and no valid backup found. "
+            f"Please check {VENDOR_DB_PATH}"
+        )
+
+    except Exception as e:
+        logger.error(f"Failed to load vendor database: {e}")
+        raise RuntimeError(f"Failed to load vendor database: {e}")
+
+def save_vendor_db(db: Dict[str, Any]) -> None:
+    """
+    Save vendor database with backup and validation
+
+    Args:
+        db: Vendor database to save
+
+    Raises:
+        RuntimeError: If save operation fails
+    """
+    try:
+        # Validate database structure
+        if not isinstance(db, dict):
+            raise ValueError("Database must be a dictionary")
+
+        # Create backup of existing database
+        if VENDOR_DB_PATH.exists():
+            backup_path = VENDOR_DB_PATH.with_suffix('.json.backup')
+            try:
+                VENDOR_DB_PATH.replace(backup_path)
+                logger.debug("Created database backup")
+            except Exception as e:
+                logger.warning(f"Failed to create backup: {e}")
+
+        # Save database
+        Config.DATA_DIR.mkdir(exist_ok=True)
+        content = json.dumps(db, indent=2, ensure_ascii=False)
+        VENDOR_DB_PATH.write_text(content, encoding="utf-8")
+
+        logger.info(f"Saved vendor database with {len(db)} organizations")
+        TPRMLogger.log_user_action(logger, "save_vendor_db", {"org_count": len(db)})
+
+    except Exception as e:
+        logger.error(f"Failed to save vendor database: {e}")
+        raise RuntimeError(f"Failed to save vendor database: {e}")
 
 def ensure_org(db, org_id):
     if org_id not in db:
@@ -68,15 +150,42 @@ def list_vendors_for_org(db, org_id):
         return out
     return [(org_id, v) for v in db.get(org_id, {}).keys()]
 
-def snapshot_history(org_id, vendor_name, record_dict):
+def snapshot_history(org_id: str, vendor_name: str, record_dict: Dict[str, Any]) -> None:
     """
-    Write a point-in-time snapshot to /history with timestamp.
+    Write a point-in-time snapshot to /history with timestamp and validation
+
+    Args:
+        org_id: Organization ID
+        vendor_name: Vendor name
+        record_dict: Vendor record to snapshot
+
+    Raises:
+        RuntimeError: If snapshot fails
     """
-    ts = now_iso()
-    safe_org = org_id.replace(" ", "_")
-    safe_vendor = vendor_name.replace(" ", "_")
-    hist_path = HISTORY_DIR / f"{safe_org}_{safe_vendor}_{ts}.json"
-    hist_path.write_text(json.dumps(record_dict, indent=2), encoding="utf-8")
+    try:
+        # Validate inputs
+        org_id = InputValidator.validate_organization_name(org_id)
+        vendor_name = InputValidator.validate_vendor_name(vendor_name)
+
+        ts = now_iso()
+        safe_org = InputValidator.sanitize_filename(org_id.replace(" ", "_"))
+        safe_vendor = InputValidator.sanitize_filename(vendor_name.replace(" ", "_"))
+
+        HISTORY_DIR.mkdir(exist_ok=True)
+        hist_path = HISTORY_DIR / f"{safe_org}_{safe_vendor}_{ts}.json"
+
+        content = json.dumps(record_dict, indent=2, ensure_ascii=False)
+        hist_path.write_text(content, encoding="utf-8")
+
+        logger.debug(f"Created history snapshot: {hist_path.name}")
+
+    except ValidationError as e:
+        logger.error(f"Validation error in snapshot_history: {e}")
+        raise RuntimeError(f"Failed to create snapshot: {e}")
+
+    except Exception as e:
+        logger.error(f"Failed to create history snapshot: {e}")
+        raise RuntimeError(f"Failed to create history snapshot: {e}")
 
 def validate_vendor_record(record):
     """
